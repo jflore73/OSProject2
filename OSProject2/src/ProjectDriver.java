@@ -8,6 +8,8 @@ public class ProjectDriver {
 		input=verify();
 		System.out.println(input);
 		Algorithms.fcfsAlgorithm();
+		System.out.println();
+		Algorithms.sjfAlgorithm();
 
 	}
 	private static int verify(){
