@@ -385,6 +385,71 @@ public class Algorithms {
 		System.out.println("Average turnaround time for " + np + " processes: " + averageTurnaroundTime + " sec(s)");
 	}
     
+    public static void srtfAlgorithm() {
+		int np;
+		System.out.println("Shortest Remaining Time First Algorithm");
+		System.out.print("Enter number of processes: ");
+		np=verify();
+		double[] bp= new double[np];//Burst Time
+		double[] wtp = new double[np];//Wait Time
+		double[] p= new double[np];//Process Order
+		double twt = 0.0, awt; //Total Wait Time, Average Wait Time
+		double temp=0.0;
+		double[] store = new double[np];
+		double[] arrivaltime= new double[np];//Process Order
+		boolean found=false;
+		for(int i=0; i<np;i++) {
+			System.out.print("Enter Burst time for Process "+(i+1)+": ");
+			bp[i]=verify();
+			System.out.print("Enter arrival time for Process "+(i+1)+": ");
+			arrivaltime[i]=verify();
+			store[i]=bp[i];
+		}
+		for(int i=0; i<np;i++) {
+			p[i]=bp[i];
+		}
+		//Sort by shortest
+		for(int i=0; i<np-1;i++) {
+			for(int j=0; j<np-1;j++) {
+				if(p[j]>p[j+1]){
+					temp=p[j];
+					p[j]=p[j+1];
+					p[j+1]=temp;
+				}
+			}
+		}
+	    for (int i=0;i<np;i++){//num
+	    	if (i== 0){
+	    		for(int j=0; j<np; j++){//x
+	    			if (p[i]==bp[j]&&found==false){
+	    				wtp[i]=0;
+	                    System.out.println("Waiting time for Process "+j+ ": "+ wtp[i]);
+	                    bp[j]=0;
+	                    found=true;
+	                }
+	            }
+	            found = false;
+	        }
+	        else{
+	        	for (int j = 0; j<np; j++){ //x
+	                if (p[i]==bp[j]&&found==false){
+	                	wtp[i] = wtp[i-1]+p[i-1];
+	                	System.out.println("Waiting time for Process " +j+ ": " + wtp[i]);
+	                	bp[j]=0;
+	                    found=true;
+	                }
+	            }
+	            found = false;
+	        }
+	    }
+	    for(int i=0; i<np;i++){
+			twt+=(double)wtp[i];
+		}
+		System.out.println("Total Wait Time: "+twt);
+		awt=twt/(double)np;
+		System.out.println("Average Wait Time: "+awt);
+	}
+    
 	private static int verify(){
 		int input=-10;
 		boolean isValid=false;

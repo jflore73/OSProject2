@@ -26,22 +26,13 @@ public class ProjectDriver {
 				Algorithms.roundRobinAlgorithm2();
 				break;
 			case 7:
-				System.out.println();
-				break;
-			case 8:
-				System.out.println();
-				break;
-			case 9:
-				System.out.println();
-				break;
-			case 10:
 				break;
 			default:
 				System.out.println("Invalid input. Try again.");
 				break;
 			}
 			System.out.println();
-		}while(input!=10);
+		}while(input!=7);
 		System.exit(0);
 	}
 	private static int display() {
@@ -51,11 +42,8 @@ public class ProjectDriver {
 		System.out.println("3. Priority Schedule Algorithm");
 		System.out.println("4. Round Robin Algorithm");
 		System.out.println("5. Priority Schedule Algorithm Two");
-		System.out.println("6. Undefined");
-		System.out.println("7. Undefined");
-		System.out.println("8. Undefined");
-		System.out.println("9. Undefined");
-		System.out.println("10. Exit Program");
+		System.out.println("6. Round Robin Two");
+		System.out.println("7. Exit Program");
 		System.out.println();
 		System.out.print("Enter option number: ");
 		return verify();
