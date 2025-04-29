@@ -159,6 +159,71 @@ public class Algorithms {
 		System.out.println("Average Wait Time: "+awt);
 	}
     
+    public static void priorityAlgorithm2(){
+    	int np;
+		System.out.println("Priority Schedule Algorithm");
+		System.out.print("Enter number of processes: ");
+		np=verify();
+		double[] bp = new double[np]; //Burst Time
+		double[] wtp = new double[np + 1]; //Wait time process
+		int[] p = new int[np]; //Priority evaluation
+		int[] sp = new int[np]; //Sort priority
+		double twt = 0.0; //Total Wait Time
+		double awt; //Average Wait Time
+		int temp = 0; //Temporal
+		boolean found = false;
+		for(int i=0; i<np;i++) {
+			System.out.print("Enter Burst time for Process "+(i+1)+": ");
+			bp[i]=verify();
+			System.out.print("Enter Priority for Process "+(i+1)+": ");
+			p[i]=verify();
+		}
+		for(int i= 0; i < np; i++){
+			sp[i] = p[i];
+		}
+		for(int i=0; i < np - 1; i++){
+			for (int j = 0; j < np - 1; j++){
+				if (sp[j] > sp[j + 1]){
+					temp = sp[j];
+					sp[j] = sp[j + 1];
+					sp[j + 1] = temp;
+				}
+			}
+		}
+		for(int i = 0; i < np; i++){
+			if (i == 0){
+				for (int j = 0; j < np; j++){
+					if (sp[i] == p[j] && found == false){
+						wtp[i] = 0;
+						System.out.println("Waiting time for Process " + (j + 1) + " = " + wtp[i]);
+						temp = j;
+						p[j] = 0;
+						found = true;
+					}
+				}
+				found = false;
+			}
+			else{
+				for (int j = 0; j < np; j++){//x
+					if (sp[i] == p[j] && found == false){
+						wtp[i] = wtp[i - 1] + bp[temp];
+						System.out.println("Waiting time for Process " + (j + 1) + " = " + wtp[i]);
+						temp = j;
+						p[j] = 0;
+						found = true;
+					}
+				}
+				found = false;
+			}
+		}
+		for(int i=0; i<np;i++){
+			twt+=(double)wtp[i];
+		}
+		System.out.println("Total Wait Time: "+twt);
+		awt=twt/(double)np;
+		System.out.println("Average Wait Time: "+awt);
+	}
+    
     public static void roundRobinAlgorithm(){
     	int np;
 		System.out.println("Round Robin Algorithm");
@@ -209,6 +274,110 @@ public class Algorithms {
 			else{
 				i = 0;
 			}
+		}
+		averageWaitTime = (int)(waitTime * 1.0 / np);
+		averageTurnaroundTime = (int)(turnaroundTime * 1.0 / np);
+		System.out.println("Average wait time for " + np + " processes: " + averageWaitTime + " sec(s)");
+		System.out.println("Average turnaround time for " + np + " processes: " + averageTurnaroundTime + " sec(s)");
+	}
+    
+    public static void roundRobinAlgorithm2(){
+    	int np;
+		System.out.println("Round Robin Algorithm, Version 2");
+		System.out.print("Enter number of processes: ");
+		np=verify();
+		int i, counter = 0;
+		double total = 0.0;
+		double timeQuantum;
+		double waitTime = 0, turnaroundTime = 0;
+		double averageWaitTime, averageTurnaroundTime;
+		double[] arrivalTime = new double[10];
+		double[] burstTime = new double[10];
+		double[] temp = new double[10];
+		int x = np;
+		Queue order=new Queue();
+		for (i = 0; i < np; i++){
+			System.out.print("Enter Burst time for Process "+(i+1)+": ");
+			burstTime[i] = verify();
+			System.out.print("Enter Arrival time for Process "+(i+1)+": ");
+			arrivalTime[i] = verify();
+			temp[i] = burstTime[i];
+			System.out.println("Temp["+i+"] is "+temp[i]);
+		}
+		System.out.print("Enter Time Quantum: ");
+		timeQuantum= verify();
+		for(int j=0;j<np;j++) {
+			if(arrivalTime[j]==total)
+				order.queue(j);
+		}
+		for (total = 0, i = 0; x != 0;){
+			if (temp[i] > 0){
+				if (temp[i] <= timeQuantum){
+					total = total + temp[i];
+					System.out.println("Total is: "+total);
+					temp[i] = 0;
+					counter = 1;
+					System.out.println("Temp["+i+"] is "+temp[i]);
+					System.out.println("counter is: "+counter);
+				}
+				else {
+					temp[i] = temp[i] - timeQuantum;
+					total = total + timeQuantum;
+					System.out.println("Temp["+i+"] is "+temp[i]);
+					System.out.println("Total is: "+total);
+				}
+			}
+			if (temp[i] == 0 && counter == 1){
+				x--;
+				//order.dequeue();
+				System.out.println("X is: "+x);
+				System.out.println("Turnaround time for Process " + (i + 1) + " : " + (total - arrivalTime[i]));
+				System.out.println("Wait time for Process " + (i + 1) + " : " + (total - arrivalTime[i] - burstTime[i]));
+				turnaroundTime = (turnaroundTime + total - arrivalTime[i]);
+				waitTime = (waitTime + total - arrivalTime[i] - burstTime[i]);
+				counter = 0;
+				System.out.println("Counter is: "+counter);
+			}
+			if (i == np - 1){
+				System.out.print("i moves from "+i);
+				i = 0;
+				System.out.println(" to "+i);
+			}
+			else if (arrivalTime[i + 1] <= total){
+				System.out.print("i moves from "+i);
+				i++;
+				System.out.println(" to "+i);
+			}
+			else{
+				System.out.print("i moves from "+i);
+				i = 0;
+				System.out.println(" to "+i);
+			}
+			/*
+			if (arrivalTime[i + 1] <= total){
+				//if(temp[i]!=0)
+					//order.requeue();
+				//order.queue(i+1);
+				System.out.println("Arrival "+(i+1)+" is "+arrivalTime[i+1]);
+				i++;
+				System.out.println("i is: "+i);
+			}
+			if (i == np - 1){
+				i = 0;
+				System.out.println("i is: "+i);
+			}
+			
+			
+			else{
+				i = 0;
+				System.out.println("i is: "+i);
+			}
+			else if (arrivalTime[i + 1] <= total){
+				System.out.println("Arrival "+(i+1)+" is "+arrivalTime[i+1]);
+				i++;
+				System.out.println("i is: "+i);
+			}
+			*/
 		}
 		averageWaitTime = (int)(waitTime * 1.0 / np);
 		averageTurnaroundTime = (int)(turnaroundTime * 1.0 / np);

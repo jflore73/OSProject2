@@ -20,10 +20,10 @@ public class ProjectDriver {
 				Algorithms.roundRobinAlgorithm();
 				break;
 			case 5:
-				System.out.println();
+				Algorithms.priorityAlgorithm2();
 				break;
 			case 6:
-				System.out.println();
+				Algorithms.roundRobinAlgorithm2();
 				break;
 			case 7:
 				System.out.println();
@@ -42,7 +42,7 @@ public class ProjectDriver {
 			}
 			System.out.println();
 		}while(input!=10);
-
+		System.exit(0);
 	}
 	private static int display() {
 		System.out.println("------------------MAIN MENU------------------");
@@ -50,7 +50,7 @@ public class ProjectDriver {
 		System.out.println("2. Shortest Job First Algorithm");
 		System.out.println("3. Priority Schedule Algorithm");
 		System.out.println("4. Round Robin Algorithm");
-		System.out.println("5. Undefined");
+		System.out.println("5. Priority Schedule Algorithm Two");
 		System.out.println("6. Undefined");
 		System.out.println("7. Undefined");
 		System.out.println("8. Undefined");
